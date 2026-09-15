@@ -1,12 +1,16 @@
 package com.research.android.spendwise.view.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -61,14 +65,55 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            BalanceCard(
+                balance = uiState.balance,
+                income = uiState.income,
+                expenses = uiState.expenses
+            )
+        }
+    }
+}
+
+@Composable
+private fun BalanceCard(
+    balance: Double,
+    income: Double,
+    expenses: Double
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
+        ) {
             Text(
-                text = "Balance"
+                text = "Total Balance",
+                style = MaterialTheme.typography.titleMedium
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
             Text(
-                text = "$4,280.00",
+                text = "$${"%,.2f".format(balance)}",
                 style = MaterialTheme.typography.headlineLarge
             )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column {
+                    Text("Income")
+                    Text("$${"%,.2f".format(income)}")
+                }
+
+                Column {
+                    Text("Expenses")
+                    Text("$${"%,.2f".format(expenses)}")
+                }
+            }
         }
     }
 }
