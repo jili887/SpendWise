@@ -13,15 +13,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel,
     onAddTransactionClick: () -> Unit
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -73,6 +78,7 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     MaterialTheme {
         HomeScreen(
+            viewModel = HomeViewModel(),
             onAddTransactionClick = {}
         )
     }
