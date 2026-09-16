@@ -70,6 +70,21 @@ fun HomeScreen(
                 income = uiState.income,
                 expenses = uiState.expenses
             )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = "Recent Transactions",
+                style = MaterialTheme.typography.titleLarge
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            uiState.transactions.forEach { transaction ->
+                TransactionItem(
+                    transaction = transaction
+                )
+            }
         }
     }
 }
