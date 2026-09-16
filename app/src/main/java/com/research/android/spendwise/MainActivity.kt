@@ -15,7 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.view.home.HomeScreen
 import com.research.android.spendwise.view.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val homeViewModel: HomeViewModel by viewModels()
 
