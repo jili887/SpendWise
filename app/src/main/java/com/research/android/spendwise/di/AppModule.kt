@@ -3,6 +3,7 @@ package com.research.android.spendwise.di
 import android.content.Context
 import androidx.room.Room
 import com.research.android.spendwise.data.local.AppDatabase
+import com.research.android.spendwise.data.local.MIGRATION_1_2
 import com.research.android.spendwise.data.local.dao.TransactionDao
 import com.research.android.spendwise.data.repository.TransactionRepository
 import dagger.Module
@@ -25,7 +26,9 @@ object AppModule {
             context,
             AppDatabase::class.java,
             "spendwise_database"
-        ).build()
+        )
+            .addMigrations(MIGRATION_1_2)
+            .build()
     }
 
     @Provides

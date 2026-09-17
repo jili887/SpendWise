@@ -37,7 +37,8 @@ fun SpendWiseNavHost() {
         composable(SpendWiseRoute.AddTransaction.route) {
 
             AddTransactionScreen(
-                onSave = {
+                viewModel = hiltViewModel(),
+                onTransactionAdded = {
                     navController.popBackStack()
                 },
                 onBackClick = {

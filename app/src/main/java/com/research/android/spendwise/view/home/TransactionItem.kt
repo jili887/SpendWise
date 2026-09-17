@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.research.android.spendwise.view.transaction.TransactionType
 
 @Composable
 fun TransactionItem(
@@ -57,8 +58,11 @@ fun TransactionItemPreview() {
                 id = 1,
                 title = "Groceries",
                 amount = 85.40,
+                type = TransactionType.EXPENSE,
                 category = "Food",
-                isIncome = false
+                isIncome = false,
+                date = 2600,
+                note = "Cocsto"
             )
         )
     }

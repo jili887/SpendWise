@@ -10,13 +10,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TransactionDao {
 
-    @Query(
-        """
-        SELECT * FROM transactions
-        ORDER BY date DESC
-        """
-    )
-    fun observeTransactions(): Flow<List<TransactionEntity>>
+    @Query(" SELECT * FROM transactions ORDER BY date DESC")
+    fun getTransactions(): Flow<List<TransactionEntity>>
 
     @Insert
     suspend fun insertTransaction(

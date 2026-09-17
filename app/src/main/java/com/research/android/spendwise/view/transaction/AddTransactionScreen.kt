@@ -27,11 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.research.android.spendwise.view.home.TransactionUiModel
 
 @Composable
 fun AddTransactionScreen(
-    onSave: (TransactionUiModel) -> Unit,
+    viewModel: TransactionViewModel,
+    onTransactionAdded: () -> Unit,
     onBackClick: () -> Unit
 ) {
     var type by remember {
@@ -154,15 +154,24 @@ fun AddTransactionScreen(
                 val parsedAmount = amount.toDoubleOrNull()
 
                 if (parsedAmount != null && category.isNotBlank()) {
-                    onSave(
-                        TransactionUiModel(
-                            id = System.currentTimeMillis(),
-                            title = category,
-                            amount = parsedAmount,
-                            category = category,
-                            isIncome = type == TransactionType.INCOME
-                        )
+                    viewModel.addTransaction(
+                        title = category,
+                        amount = parsedAmount,
+                        category = category,
+                        isIncome = type == TransactionType.INCOME,
+                        date = System.currentTimeMillis(),
+                        note = note.ifBlank { null }
                     )
+                    onTransactionAdded()
+//                    onSave(
+//                        TransactionUiModel(
+//                            id = System.currentTimeMillis(),
+//                            title = category,
+//                            amount = parsedAmount,
+//                            category = category,
+//                            isIncome = type == TransactionType.INCOME
+//                        )
+//                    )
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -177,10 +186,9 @@ fun AddTransactionScreen(
 fun AddTransactionScreenPreview() {
     MaterialTheme {
         Surface {
-            AddTransactionScreen(
-                onSave = {},
-                onBackClick = {}
-            )
+//            AddTransactionScreen(
+//
+//            )
         }
     }
 }

@@ -9,8 +9,8 @@ class TransactionRepository @Inject constructor(
     private val transactionDao: TransactionDao
 ) {
 
-    fun observeTransactions(): Flow<List<TransactionEntity>> {
-        return transactionDao.observeTransactions()
+    fun getTransactions(): Flow<List<TransactionEntity>> {
+        return transactionDao.getTransactions()
     }
 
     suspend fun insertTransaction(
