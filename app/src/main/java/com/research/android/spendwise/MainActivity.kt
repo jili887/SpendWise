@@ -5,15 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.research.android.spendwise.navigation.SpendWiseNavHost
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
-import com.research.android.spendwise.view.home.HomeScreen
 import com.research.android.spendwise.view.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,15 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SpendWiseTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                    HomeScreen(
-                        viewModel = homeViewModel
-                    ) { }
-                }
+                SpendWiseNavHost()
             }
         }
     }
