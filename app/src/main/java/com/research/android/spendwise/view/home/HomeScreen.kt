@@ -136,10 +136,10 @@ private fun BalanceCard(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    MaterialTheme {
-        HomeScreen(
-            viewModel = HomeViewModel(),
-            onAddTransactionClick = {}
-        )
-    }
+//    MaterialTheme {
+//        HomeScreen(
+//            viewModel = HomeViewModel(),
+//            onAddTransactionClick = {}
+//        )
+//    }
 }

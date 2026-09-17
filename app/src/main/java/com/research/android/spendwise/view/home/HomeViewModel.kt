@@ -1,11 +1,17 @@
 package com.research.android.spendwise.view.home
 
 import androidx.lifecycle.ViewModel
+import com.research.android.spendwise.data.repository.TransactionRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: TransactionRepository
+): ViewModel() {
     private val _uiState = MutableStateFlow(
         HomeUiState(
             balance = 4280.00,
