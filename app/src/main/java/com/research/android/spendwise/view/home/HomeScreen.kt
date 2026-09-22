@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -27,7 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onAddTransactionClick: () -> Unit
+    onAddTransactionClick: () -> Unit,
+    onStatisticsClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -84,6 +86,12 @@ fun HomeScreen(
                 TransactionItem(
                     transaction = transaction
                 )
+            }
+
+            Button(
+                onClick = onStatisticsClick
+            ) {
+                Text("Statistics")
             }
         }
     }

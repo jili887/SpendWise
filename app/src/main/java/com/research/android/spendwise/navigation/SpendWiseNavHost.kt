@@ -6,11 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.research.android.spendwise.view.home.HomeScreen
+import com.research.android.spendwise.view.statistics.StatisticsScreen
 import com.research.android.spendwise.view.transaction.AddTransactionScreen
 
 sealed class SpendWiseRoute(val route: String) {
     data object Home : SpendWiseRoute("home")
     data object AddTransaction : SpendWiseRoute("add_transaction")
+    data object Statistics : SpendWiseRoute("statistics")
 }
 
 @Composable
@@ -30,6 +32,11 @@ fun SpendWiseNavHost() {
                     navController.navigate(
                         SpendWiseRoute.AddTransaction.route
                     )
+                },
+                onStatisticsClick = {
+                    navController.navigate(
+                        SpendWiseRoute.Statistics.route
+                    )
                 }
             )
         }
@@ -44,6 +51,12 @@ fun SpendWiseNavHost() {
                 onBackClick = {
                     navController.popBackStack()
                 }
+            )
+        }
+
+        composable(SpendWiseRoute.Statistics.route) {
+            StatisticsScreen(
+                viewModel = hiltViewModel()
             )
         }
     }
