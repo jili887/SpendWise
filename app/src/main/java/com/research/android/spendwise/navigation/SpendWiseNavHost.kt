@@ -62,29 +62,34 @@ fun SpendWiseNavHost() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                bottomNavItems.forEach { item ->
-                    NavigationBarItem(
-                        selected = currentRoute == item.route,
-                        onClick = {
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
+            if (
+                currentRoute == SpendWiseRoute.Home.route ||
+                currentRoute == SpendWiseRoute.Statistics.route
+            ) {
+                NavigationBar {
+                    bottomNavItems.forEach { item ->
+                        NavigationBarItem(
+                            selected = currentRoute == item.route,
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = item.icon,
+                                    contentDescription = item.label
+                                )
+                            },
+                            label = {
+                                Text(text = item.label)
                             }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = item.label
-                            )
-                        },
-                        label = {
-                            Text(text = item.label)
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

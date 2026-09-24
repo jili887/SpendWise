@@ -176,7 +176,7 @@ fun AddTransactionScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Add Transaction")
+            Text("Save Transaction")
         }
     }
 }
