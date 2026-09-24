@@ -35,7 +35,8 @@ import com.research.android.spendwise.view.common.LoadingState
 
 @Composable
 fun StatisticsScreen(
-    viewModel: StatisticsViewModel
+    viewModel: StatisticsViewModel,
+    onAddTransactionClick: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -59,7 +60,9 @@ fun StatisticsScreen(
 
             EmptyState(
                 title = "No data yet",
-                message = "Add some transactions to see your statistics."
+                message = "Add some transactions to see your statistics.",
+                actionLabel = "Add Transaction",
+                onActionClick = onAddTransactionClick
             )
         }
 

@@ -127,7 +127,12 @@ fun SpendWiseNavHost() {
 
             composable(SpendWiseRoute.Statistics.route) {
                 StatisticsScreen(
-                    viewModel = hiltViewModel()
+                    viewModel = hiltViewModel(),
+                    onAddTransactionClick = {
+                        navController.navigate(
+                            SpendWiseRoute.AddTransaction.route
+                        )
+                    }
                 )
             }
         }
