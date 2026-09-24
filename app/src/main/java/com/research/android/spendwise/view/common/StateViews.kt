@@ -42,6 +42,8 @@ fun LoadingState(
 fun EmptyState(
     title: String,
     message: String,
+    actionLabel: String? = null,
+    onActionClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -67,6 +69,16 @@ fun EmptyState(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
+
+        if (actionLabel != null && onActionClick != null) {
+
+            Button(
+                onClick = onActionClick,
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(actionLabel)
+            }
+        }
     }
 }
 

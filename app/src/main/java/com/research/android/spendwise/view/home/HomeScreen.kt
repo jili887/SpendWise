@@ -50,7 +50,9 @@ fun HomeScreen(
         uiState.transactions.isEmpty() -> {
             EmptyState(
                 title = "No transactions yet",
-                message = "Add your first transaction to get started."
+                message = "Add your first transaction to get started.",
+                actionLabel = "Add Transaction",
+                onActionClick = onAddTransactionClick
             )
         }
 
