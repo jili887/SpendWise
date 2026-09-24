@@ -61,6 +61,14 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
+    fun retry() {
+        _uiState.value = _uiState.value.copy(
+            isLoading = true,
+            errorMessage = null
+        )
+        observeStatistics()
+    }
+
     fun selectFilter(filter: StatisticsFilter) {
         selectedFilter.value = filter
     }
@@ -113,7 +121,7 @@ class StatisticsViewModel @Inject constructor(
 
             StatisticsFilter.THIS_MONTH -> {
 
-                val start = Calendar.getInstance().apply {
+                val start = calendar.apply {
                     set(
                         Calendar.DAY_OF_MONTH,
                         1
@@ -143,7 +151,7 @@ class StatisticsViewModel @Inject constructor(
 
             StatisticsFilter.LAST_MONTH -> {
 
-                val start = Calendar.getInstance().apply {
+                val start = calendar.apply {
                     add(Calendar.MONTH, -1)
                     set(Calendar.DAY_OF_MONTH, 1)
                     set(Calendar.HOUR_OF_DAY, 0)
@@ -152,7 +160,7 @@ class StatisticsViewModel @Inject constructor(
                     set(Calendar.MILLISECOND, 0)
                 }.timeInMillis
 
-                val end = Calendar.getInstance().apply {
+                val end = calendar.apply {
                     set(Calendar.DAY_OF_MONTH, 1)
                     set(Calendar.HOUR_OF_DAY, 0)
                     set(Calendar.MINUTE, 0)
@@ -161,13 +169,13 @@ class StatisticsViewModel @Inject constructor(
                 }.timeInMillis
 
                 transactions.filter {
-                    it.date >= start && it.date < end
+                    it.date in start..<end
                 }
             }
 
             StatisticsFilter.LAST_3_MONTHS -> {
 
-                val start = Calendar.getInstance().apply {
+                val start = calendar.apply {
                     add(Calendar.MONTH, -3)
                     set(Calendar.HOUR_OF_DAY, 0)
                     set(Calendar.MINUTE, 0)

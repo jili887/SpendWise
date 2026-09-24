@@ -23,7 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
+import com.research.android.spendwise.view.common.EmptyState
+import com.research.android.spendwise.view.common.ErrorState
+import com.research.android.spendwise.view.common.LoadingState
 
 @Composable
 fun HomeScreen(
@@ -33,6 +35,41 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    when {
+        uiState.isLoading ->
+            LoadingState()
+
+
+        uiState.errorMessage != null -> {
+            ErrorState(
+                message = uiState.errorMessage!!,
+                onRetry = viewModel::retry
+            )
+        }
+
+        uiState.transactions.isEmpty() -> {
+            EmptyState(
+                title = "No transactions yet",
+                message = "Add your first transaction to get started."
+            )
+        }
+
+        else -> {
+            HomeContent(
+                uiState = uiState,
+                onAddTransactionClick = onAddTransactionClick,
+                onStatisticsClick = onStatisticsClick
+            )
+        }
+    }
+}
+
+@Composable
+private fun HomeContent(
+    uiState: HomeUiState,
+    onAddTransactionClick: () -> Unit,
+    onStatisticsClick: () -> Unit
+) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(

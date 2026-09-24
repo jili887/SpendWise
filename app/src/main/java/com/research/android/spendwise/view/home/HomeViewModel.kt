@@ -6,46 +6,75 @@ import com.research.android.spendwise.data.local.entity.TransactionEntity
 import com.research.android.spendwise.data.repository.TransactionRepository
 import com.research.android.spendwise.view.transaction.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: TransactionRepository
-): ViewModel() {
-    private val _uiState: StateFlow<HomeUiState> =
-        repository.getTransactions()
-            .map { transactions ->
-
-                val income = transactions
-                    .filter { it.type == TransactionType.INCOME }
-                    .sumOf { it.amount }
-
-                val expenses = transactions
-                    .filter { it.type == TransactionType.EXPENSE }
-                    .sumOf { it.amount }
-
-                val recentTransactions = transactions
-                    .take(5)
-                    .map { it.toUiModel() }
-
-                HomeUiState(
-                    balance = income - expenses,
-                    income = income,
-                    expenses = expenses,
-                    transactions = recentTransactions
-                )
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = HomeUiState()
-            )
+) : ViewModel() {
+    private val _uiState = MutableStateFlow(
+        HomeUiState(
+            isLoading = true
+        )
+    )
 
     val uiState: StateFlow<HomeUiState> = _uiState
+
+    init {
+        observeTransactions()
+
+    }
+
+    private fun observeTransactions() {
+        viewModelScope.launch {
+            repository.getTransactions()
+                .catch { error ->
+                    _uiState.value = HomeUiState(
+                        isLoading = false,
+                        errorMessage = error.message
+                            ?: "Unable to load transactions"
+                    )
+                }
+                .collect { transactions ->
+
+                    val income = transactions
+                        .filter { it.type == TransactionType.INCOME }
+                        .sumOf { it.amount }
+
+                    val expenses = transactions
+                        .filter { it.type == TransactionType.EXPENSE }
+                        .sumOf { it.amount }
+
+                    val balance = income - expenses
+
+                    val transactionUiModels =
+                        transactions.map { transaction ->
+                            transaction.toUiModel()
+                        }
+
+                    _uiState.value = HomeUiState(
+                        balance = balance,
+                        income = income,
+                        expenses = expenses,
+                        transactions = transactionUiModels,
+                        isLoading = false,
+                        errorMessage = null
+                    )
+                }
+        }
+    }
+
+    fun retry() {
+        _uiState.value = _uiState.value.copy(
+            isLoading = true,
+            errorMessage = null
+        )
+        observeTransactions()
+    }
 
     fun TransactionEntity.toUiModel(): TransactionUiModel {
         return TransactionUiModel(

@@ -29,6 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.research.android.spendwise.view.common.EmptyState
+import com.research.android.spendwise.view.common.ErrorState
+import com.research.android.spendwise.view.common.LoadingState
 
 @Composable
 fun StatisticsScreen(
@@ -37,6 +40,43 @@ fun StatisticsScreen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    when {
+        uiState.isLoading -> {
+            LoadingState()
+        }
+
+        uiState.errorMessage != null -> {
+            ErrorState(
+                message = uiState.errorMessage!!,
+                onRetry = viewModel::retry
+
+            )
+        }
+
+        uiState.expensesByCategory.isEmpty() &&
+                uiState.income == 0.0 &&
+                uiState.expenses == 0.0 -> {
+
+            EmptyState(
+                title = "No data yet",
+                message = "Add some transactions to see your statistics."
+            )
+        }
+
+        else -> {
+            StatisticsContent(
+                uiState = uiState,
+                viewModel = viewModel
+            )
+        }
+    }
+}
+
+@Composable
+private fun StatisticsContent(
+    uiState: StatisticsUiState,
+    viewModel: StatisticsViewModel
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
