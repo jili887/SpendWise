@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AddTransactionScreen(
-    viewModel: TransactionViewModel,
+    viewModel: TransactionFormViewModel,
     onTransactionAdded: () -> Unit,
     onBackClick: () -> Unit
 ) {

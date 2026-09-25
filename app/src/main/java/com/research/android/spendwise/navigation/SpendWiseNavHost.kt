@@ -22,11 +22,18 @@ import androidx.navigation.compose.rememberNavController
 import com.research.android.spendwise.view.home.HomeScreen
 import com.research.android.spendwise.view.statistics.StatisticsScreen
 import com.research.android.spendwise.view.transaction.AddTransactionScreen
+import com.research.android.spendwise.view.transaction.TransactionFormMode
+import com.research.android.spendwise.view.transaction.TransactionFormScreen
 
 sealed class SpendWiseRoute(val route: String) {
     data object Home : SpendWiseRoute("home")
     data object AddTransaction : SpendWiseRoute("add_transaction")
     data object Statistics : SpendWiseRoute("statistics")
+    data object EditTransaction : SpendWiseRoute("edit_transaction/{transactionId}") {
+        fun createRoute(transactionId: Long): String {
+            return "edit_transaction/$transactionId"
+        }
+    }
 }
 
 data class BottomNavItem(
@@ -113,6 +120,11 @@ fun SpendWiseNavHost() {
                         navController.navigate(
                             SpendWiseRoute.Statistics.route
                         )
+                    },
+                    onEditTransactionClick = { transactionId ->
+                        navController.navigate(
+                            SpendWiseRoute.EditTransaction.createRoute(transactionId)
+                        )
                     }
                 )
             }
@@ -140,12 +152,25 @@ fun SpendWiseNavHost() {
                     }
                 )
             }
+
+            composable(SpendWiseRoute.EditTransaction.route) { backStackEntry ->
+                val transactionId =
+                    backStackEntry.arguments
+                        ?.getString("transactionId")
+                        ?.toLongOrNull()
+                if (transactionId != null) {
+                    TransactionFormScreen(
+                        mode = TransactionFormMode.Edit(transactionId = transactionId),
+                        viewModel = hiltViewModel(),
+                        onSaved = {
+                            navController.popBackStack()
+                        },
+                        onBackClick = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
         }
     }
 }
-
-@Composable
-fun NavigationBarItem(selected: Boolean, onClick: () -> Unit, icon: () -> Unit, label: () -> Unit) {
-    TODO("Not yet implemented")
-}
-

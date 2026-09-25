@@ -13,11 +13,20 @@ class TransactionRepository @Inject constructor(
         return transactionDao.getTransactions()
     }
 
+    suspend fun getTransactionById(transactionId: Long): TransactionEntity? {
+        return transactionDao.getTransactionById(transactionId)
+    }
+
     suspend fun insertTransaction(
         transaction: TransactionEntity
     ) {
         transactionDao.insertTransaction(transaction)
     }
+
+    suspend fun updateTransaction(
+        transaction: TransactionEntity
+    ) =
+        transactionDao.updateTransaction(transaction)
 
     suspend fun deleteTransaction(
         transaction: TransactionEntity
@@ -25,7 +34,9 @@ class TransactionRepository @Inject constructor(
         transactionDao.deleteTransaction(transaction)
     }
 
-    suspend fun deleteTransactionById(transactionId: Long) {
+    suspend fun deleteTransactionById(
+        transactionId: Long
+    ) {
         transactionDao.deleteTransactionById(transactionId)
     }
 }

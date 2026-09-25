@@ -36,7 +36,8 @@ import com.research.android.spendwise.view.common.LoadingState
 fun HomeScreen(
     viewModel: HomeViewModel,
     onAddTransactionClick: () -> Unit,
-    onStatisticsClick: () -> Unit
+    onStatisticsClick: () -> Unit,
+    onEditTransactionClick: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     /*
@@ -76,7 +77,8 @@ fun HomeScreen(
                 onStatisticsClick = onStatisticsClick,
                 onDeleteTransactionClick = { transaction ->
                     transactionToDelete = transaction
-                }
+                },
+                onEditTransactionClick = onEditTransactionClick
             )
         }
     }
@@ -128,6 +130,7 @@ private fun HomeContent(
     onAddTransactionClick: () -> Unit,
     onStatisticsClick: () -> Unit,
     onDeleteTransactionClick: (TransactionUiModel) -> Unit,
+    onEditTransactionClick: (Long) -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
@@ -181,6 +184,11 @@ private fun HomeContent(
             uiState.transactions.forEach { transaction ->
                 TransactionItem(
                     transaction = transaction,
+                    onEditClick = { transactionId ->
+                        onEditTransactionClick(
+                            transactionId
+                        )
+                    },
                     onDeleteClick = {
                         onDeleteTransactionClick(transaction)
                     }

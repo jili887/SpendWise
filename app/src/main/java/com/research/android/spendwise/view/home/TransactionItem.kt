@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import com.research.android.spendwise.view.transaction.TransactionType
 @Composable
 fun TransactionItem(
     transaction: TransactionUiModel,
+    onEditClick: (Long) -> Unit,
     onDeleteClick: (Long) -> Unit
 ) {
     Row(
@@ -54,6 +56,17 @@ fun TransactionItem(
 
         IconButton(
             onClick = {
+                onEditClick(transaction.id)
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Edit transaction"
+            )
+        }
+
+        IconButton(
+            onClick = {
                 onDeleteClick(transaction.id)
             }
         ) {
@@ -80,6 +93,7 @@ fun TransactionItemPreview() {
                 date = 2600,
                 note = "Cocsto"
             ),
+            onEditClick = {},
             onDeleteClick = {}
         )
     }
