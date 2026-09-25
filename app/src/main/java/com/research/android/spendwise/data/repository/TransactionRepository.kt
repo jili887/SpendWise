@@ -24,4 +24,8 @@ class TransactionRepository @Inject constructor(
     ) {
         transactionDao.deleteTransaction(transaction)
     }
+
+    suspend fun deleteTransactionById(transactionId: Long) {
+        transactionDao.deleteTransactionById(transactionId)
+    }
 }

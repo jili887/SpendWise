@@ -26,7 +26,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         observeTransactions()
-
     }
 
     private fun observeTransactions() {
@@ -74,6 +73,20 @@ class HomeViewModel @Inject constructor(
             errorMessage = null
         )
         observeTransactions()
+    }
+
+    fun deleteTransaction(transactionId: Long) {
+        viewModelScope.launch {
+            try {
+                repository.deleteTransactionById(transactionId)
+            } catch (error: Exception) {
+
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = error.message
+                        ?: "Unable to delete transaction."
+                )
+            }
+        }
     }
 
     fun TransactionEntity.toUiModel(): TransactionUiModel {

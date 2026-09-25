@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
@@ -17,8 +18,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,11 +39,19 @@ fun HomeScreen(
     onStatisticsClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    /*
+    * Stores the transaction that the user wants to delete.
+    *
+    * null = no delete dialog
+    * non-null = show delete confirmation dialog
+    */
+    var transactionToDelete by remember {
+        mutableStateOf<TransactionUiModel?>(null)
+    }
 
     when {
         uiState.isLoading ->
             LoadingState()
-
 
         uiState.errorMessage != null -> {
             ErrorState(
@@ -60,17 +73,61 @@ fun HomeScreen(
             HomeContent(
                 uiState = uiState,
                 onAddTransactionClick = onAddTransactionClick,
-                onStatisticsClick = onStatisticsClick
+                onStatisticsClick = onStatisticsClick,
+                onDeleteTransactionClick = { transaction ->
+                    transactionToDelete = transaction
+                }
             )
         }
     }
+    transactionToDelete?.let { transaction ->
+
+            AlertDialog(
+                onDismissRequest = {
+                    transactionToDelete = null
+                },
+
+                title = {
+                    Text("Delete transaction?")
+                },
+
+                text = {
+                    Text(
+                        "Are you sure you want to delete \"${transaction.title}\"?"
+                    )
+                },
+
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.deleteTransaction(
+                                transaction.id
+                            )
+                            transactionToDelete = null
+                        }
+                    ) {
+                        Text("Delete")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            transactionToDelete = null
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
 }
 
 @Composable
 private fun HomeContent(
     uiState: HomeUiState,
     onAddTransactionClick: () -> Unit,
-    onStatisticsClick: () -> Unit
+    onStatisticsClick: () -> Unit,
+    onDeleteTransactionClick: (TransactionUiModel) -> Unit,
 ) {
     Scaffold(
         floatingActionButton = {
@@ -123,7 +180,10 @@ private fun HomeContent(
 
             uiState.transactions.forEach { transaction ->
                 TransactionItem(
-                    transaction = transaction
+                    transaction = transaction,
+                    onDeleteClick = {
+                        onDeleteTransactionClick(transaction)
+                    }
                 )
             }
 

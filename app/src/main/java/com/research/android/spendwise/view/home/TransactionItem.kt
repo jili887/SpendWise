@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +19,8 @@ import com.research.android.spendwise.view.transaction.TransactionType
 
 @Composable
 fun TransactionItem(
-    transaction: TransactionUiModel
+    transaction: TransactionUiModel,
+    onDeleteClick: (Long) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -46,6 +51,17 @@ fun TransactionItem(
             },
             style = MaterialTheme.typography.bodyLarge
         )
+
+        IconButton(
+            onClick = {
+                onDeleteClick(transaction.id)
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete transaction"
+            )
+        }
     }
 }
 
@@ -63,7 +79,8 @@ fun TransactionItemPreview() {
                 isIncome = false,
                 date = 2600,
                 note = "Cocsto"
-            )
+            ),
+            onDeleteClick = {}
         )
     }
 }
