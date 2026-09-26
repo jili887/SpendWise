@@ -21,7 +21,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.research.android.spendwise.view.home.HomeScreen
 import com.research.android.spendwise.view.statistics.StatisticsScreen
-import com.research.android.spendwise.view.transaction.AddTransactionScreen
 import com.research.android.spendwise.view.transaction.TransactionFormMode
 import com.research.android.spendwise.view.transaction.TransactionFormScreen
 
@@ -131,9 +130,10 @@ fun SpendWiseNavHost() {
 
             composable(SpendWiseRoute.AddTransaction.route) {
 
-                AddTransactionScreen(
+                TransactionFormScreen(
+                    mode = TransactionFormMode.Add,
                     viewModel = hiltViewModel(),
-                    onTransactionAdded = {
+                    onSaved = {
                         navController.popBackStack()
                     },
                     onBackClick = {
