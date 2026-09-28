@@ -1,17 +1,22 @@
 package com.research.android.spendwise.view.transaction
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -20,14 +25,22 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun TransactionFormScreen(
@@ -53,7 +66,10 @@ fun TransactionFormScreen(
                     .fillMaxWidth()
                     .padding(24.dp)
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    strokeWidth = 2.dp
+                )
             }
         }
 
@@ -145,36 +161,6 @@ private fun TransactionFormContent(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-/*
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            FilterChip(
-                selected = uiState.type == TransactionType.EXPENSE,
-                onClick = {
-                    onTypeChanged(
-                        TransactionType.EXPENSE
-                    )
-                },
-                label = {
-                    Text("Expense")
-                }
-            )
-
-            FilterChip(
-                selected = uiState.type == TransactionType.INCOME,
-                onClick = {
-                    onTypeChanged(
-                        TransactionType.INCOME
-                    )
-                },
-                label = {
-                    Text("Income")
-                }
-            )
-        }
- */
 
         SingleChoiceSegmentedButtonRow(
             modifier = Modifier.fillMaxWidth()
@@ -216,6 +202,7 @@ private fun TransactionFormContent(
             onValueChange = onAmountChanged,
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Amount") },
+            placeholder = { Text("Required") },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             isError = uiState.amountError != null,
@@ -233,6 +220,7 @@ private fun TransactionFormContent(
             label = {
                 Text("Category")
             },
+            placeholder = { Text("Required") },
             singleLine = true,
             isError = uiState.categoryError != null,
             supportingText = {
@@ -242,21 +230,93 @@ private fun TransactionFormContent(
             }
         )
 
+        var showDatePicker by rememberSaveable {
+            mutableStateOf(false)
+        }
+
         OutlinedTextField(
             value = uiState.date,
-            onValueChange = onDateChanged,
-            modifier = Modifier.fillMaxWidth(),
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    showDatePicker = true
+                },
             label = {
                 Text("Date")
             },
             singleLine = true,
+            readOnly = true,
+            enabled = true,
             isError = uiState.dateError != null,
             supportingText = {
                 uiState.dateError?.let { error ->
                     Text(error)
                 }
+            },
+            trailingIcon = {
+                IconButton(
+                    onClick = {
+                        showDatePicker = true
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Select date"
+                    )
+                }
             }
         )
+
+        if (showDatePicker) {
+
+            val datePickerState = rememberDatePickerState()
+
+            DatePickerDialog(
+                onDismissRequest = {
+                    showDatePicker = false
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+
+                            datePickerState.selectedDateMillis?.let { millis ->
+
+                                val formatter =
+                                    SimpleDateFormat(
+                                        "MM/dd/yyyy",
+                                        Locale.US
+                                    )
+
+                                val selectedDate =
+                                    formatter.format(
+                                        Date(millis)
+                                    )
+
+                                onDateChanged(selectedDate)
+                            }
+
+                            showDatePicker = false
+                        }
+                    ) {
+                        Text("OK")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            showDatePicker = false
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            ) {
+                DatePicker(
+                    state = datePickerState
+                )
+            }
+        }
 
         OutlinedTextField(
             value = uiState.note,
@@ -265,7 +325,9 @@ private fun TransactionFormContent(
             label = {
                 Text("Note")
             },
+            placeholder = { Text("Optional") },
             minLines = 3,
+            maxLines = 5,
             isError = uiState.noteError != null,
             supportingText = {
                 uiState.noteError?.let { error ->
@@ -280,7 +342,10 @@ private fun TransactionFormContent(
             enabled = !uiState.isSaving
         ) {
             if (uiState.isSaving) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    strokeWidth = 2.dp
+                )
             } else {
                 Text(
                     text =
