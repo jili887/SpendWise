@@ -20,14 +20,18 @@ fun millisToDateString(millis: Long): String {
         .format(DATE_FORMATTER)
 }
 
-fun dateStringToMillis(dateString: String): Long {
-    val localDate = LocalDate.parse(
-        dateString,
-        DATE_FORMATTER
-    )
+fun dateStringToMillis(dateString: String): Long? {
+    if (dateString.isBlank()) {
+        return null
+    }
 
-    return localDate
-        .atStartOfDay(ZoneOffset.UTC)
-        .toInstant()
-        .toEpochMilli()
+    return try {
+        LocalDate
+            .parse(dateString, DATE_FORMATTER)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant()
+            .toEpochMilli()
+    } catch (e: Exception) {
+        null
+    }
 }

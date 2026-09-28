@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.research.android.spendwise.data.local.entity.TransactionEntity
 import com.research.android.spendwise.data.repository.TransactionRepository
+import com.research.android.spendwise.util.dateStringToMillis
+import com.research.android.spendwise.util.millisToDateString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,8 +50,7 @@ class TransactionFormViewModel @Inject constructor(
             }
 
             try {
-                val transaction =
-                    repository.getTransactionById(transactionId)
+                val transaction = repository.getTransactionById(transactionId)
 
                 if (transaction == null) {
                     _uiState.update {
@@ -58,8 +59,7 @@ class TransactionFormViewModel @Inject constructor(
                     return@launch
                 }
 
-                originalTransaction =
-                    transaction
+                originalTransaction = transaction
 
                 _uiState.update {
                     it.copy(
@@ -71,7 +71,7 @@ class TransactionFormViewModel @Inject constructor(
                             },
                         amount = transaction.amount.toString(),
                         category = transaction.category,
-                        date = transaction.date.toString(),
+                        date = millisToDateString(transaction.date),
                         note = transaction.note.orEmpty(),
                         isLoading = false,
                         errorMessage = null
@@ -129,6 +129,13 @@ class TransactionFormViewModel @Inject constructor(
             return
         }
         val amount = state.amount.trim().toDouble()
+        val dateMillis = dateStringToMillis(state.date)
+        if (dateMillis == null) {
+            _uiState.update {
+                it.copy(dateError = "Enter a valid date.")
+            }
+            return
+        }
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessage = null) }
@@ -142,7 +149,7 @@ class TransactionFormViewModel @Inject constructor(
                                 type = if (state.type == TransactionType.INCOME) TransactionType.INCOME else TransactionType.EXPENSE,
                                 category = state.category.trim(),
                                 isIncome = state.type == TransactionType.INCOME,
-                                date = System.currentTimeMillis(),
+                                date = dateMillis,
                                 note = state.note.trim().ifBlank { null }
                             )
                         repository.insertTransaction(
@@ -169,7 +176,7 @@ class TransactionFormViewModel @Inject constructor(
                                 type = if (state.type == TransactionType.INCOME) TransactionType.INCOME else TransactionType.EXPENSE,
                                 category = state.category.trim(),
                                 isIncome = state.type == TransactionType.INCOME,
-                                date = System.currentTimeMillis(),
+                                date = dateMillis,
                                 note = state.note.trim().ifBlank { null }
                             )
                         repository.updateTransaction(

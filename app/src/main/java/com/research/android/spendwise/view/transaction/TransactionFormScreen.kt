@@ -267,7 +267,6 @@ private fun TransactionFormContent(
         )
 
         if (showDatePicker) {
-
             val datePickerState = rememberDatePickerState()
 
             DatePickerDialog(
