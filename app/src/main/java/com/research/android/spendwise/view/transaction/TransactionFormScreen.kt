@@ -12,11 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -143,7 +145,7 @@ private fun TransactionFormContent(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-
+/*
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -170,6 +172,42 @@ private fun TransactionFormContent(
                 label = {
                     Text("Income")
                 }
+            )
+        }
+ */
+
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            SegmentedButton(
+                selected =
+                    uiState.type == TransactionType.EXPENSE,
+                onClick = {
+                    onTypeChanged(
+                        TransactionType.EXPENSE
+                    )
+                },
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = 0,
+                    count = 2
+                ),
+                label = { Text("Expense") }
+            )
+
+            SegmentedButton(
+                selected =
+                    uiState.type == TransactionType.INCOME,
+                onClick = {
+                    onTypeChanged(
+                        TransactionType.INCOME
+                    )
+                },
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = 1,
+                    count = 2
+                ),
+                label = { Text("Income") }
             )
         }
 
