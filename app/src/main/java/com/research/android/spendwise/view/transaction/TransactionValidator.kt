@@ -67,7 +67,6 @@ object TransactionValidator {
     ): String? {
 
         val trimmedCategory = category.trim()
-
         if (trimmedCategory.isEmpty()) {
             return "Category is required."
         }
@@ -75,7 +74,6 @@ object TransactionValidator {
         if (trimmedCategory.length > MAX_CATEGORY_LENGTH) {
             return "Category must be 50 characters or less."
         }
-
         return null
     }
 

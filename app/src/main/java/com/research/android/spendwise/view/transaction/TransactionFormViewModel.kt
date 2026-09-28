@@ -111,24 +111,19 @@ class TransactionFormViewModel @Inject constructor(
 
     fun saveTransaction() {
         val state = _uiState.value
-        val validationResult =
-            TransactionValidator.validate(
+        val validationResult = TransactionValidator.validate(
                 amount = state.amount,
                 category = state.category,
                 date = state.date,
                 note = state.note
-            )
+        )
         if (!validationResult.isValid) {
             _uiState.update {
                 it.copy(
-                    amountError =
-                        validationResult.amountError,
-                    categoryError =
-                        validationResult.categoryError,
-                    dateError =
-                        validationResult.dateError,
-                    noteError =
-                        validationResult.noteError
+                    amountError = validationResult.amountError,
+                    categoryError = validationResult.categoryError,
+                    dateError = validationResult.dateError,
+                    noteError = validationResult.noteError
                 )
             }
             return
