@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -22,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -94,8 +96,6 @@ private fun TransactionFormContent(
     onSaveClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
-    val isEditMode = mode is TransactionFormMode.Edit
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -119,17 +119,30 @@ private fun TransactionFormContent(
                 )
             }
             Text(
-                text =
-                    if (isEditMode) {
-                        "Edit Transaction"
-                    } else {
+                text = when (mode) {
+                    TransactionFormMode.Add ->
                         "Add Transaction"
-                    },
+
+                    is TransactionFormMode.Edit ->
+                        "Edit Transaction"
+                },
                 style =
-                    MaterialTheme.typography
-                        .headlineMedium
+                    MaterialTheme.typography.headlineMedium
             )
         }
+
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = when (mode) {
+                TransactionFormMode.Add ->
+                    "Track your income or expenses"
+
+                is TransactionFormMode.Edit ->
+                    "Update your transaction details"
+            },
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -164,10 +177,9 @@ private fun TransactionFormContent(
             value = uiState.amount,
             onValueChange = onAmountChanged,
             modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text("Amount")
-            },
+            label = { Text("Amount") },
             singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             isError = uiState.amountError != null,
             supportingText = {
                 uiState.amountError?.let { error ->
@@ -234,10 +246,9 @@ private fun TransactionFormContent(
             } else {
                 Text(
                     text =
-                        if (isEditMode) {
-                            "Save Changes"
-                        } else {
-                            "Save Transaction"
+                        when (mode) {
+                            TransactionFormMode.Add -> "Save Transaction"
+                            is TransactionFormMode.Edit -> "Save Changes"
                         }
                 )
             }
