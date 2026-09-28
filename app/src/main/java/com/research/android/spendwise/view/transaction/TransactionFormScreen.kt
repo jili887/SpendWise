@@ -38,9 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.research.android.spendwise.util.millisToDateString
 
 @Composable
 fun TransactionFormScreen(
@@ -279,23 +277,11 @@ private fun TransactionFormContent(
                 confirmButton = {
                     TextButton(
                         onClick = {
-
                             datePickerState.selectedDateMillis?.let { millis ->
-
-                                val formatter =
-                                    SimpleDateFormat(
-                                        "MM/dd/yyyy",
-                                        Locale.US
-                                    )
-
-                                val selectedDate =
-                                    formatter.format(
-                                        Date(millis)
-                                    )
-
-                                onDateChanged(selectedDate)
+                                onDateChanged(
+                                    millisToDateString(millis)
+                                )
                             }
-
                             showDatePicker = false
                         }
                     ) {
