@@ -14,6 +14,8 @@ data class TransactionFormUiState(
 
     val amountError: String? = null,
     val categoryError: String? = null,
+    val dateError: String? = null,
+    val noteError: String? = null,
 
     val isSaved: Boolean = false
 )

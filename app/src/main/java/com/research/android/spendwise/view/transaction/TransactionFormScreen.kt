@@ -170,8 +170,8 @@ private fun TransactionFormContent(
             singleLine = true,
             isError = uiState.amountError != null,
             supportingText = {
-                uiState.amountError?.let {
-                    Text(it)
+                uiState.amountError?.let { error ->
+                    Text(error)
                 }
             }
         )
@@ -186,8 +186,8 @@ private fun TransactionFormContent(
             singleLine = true,
             isError = uiState.categoryError != null,
             supportingText = {
-                uiState.categoryError?.let {
-                    Text(it)
+                uiState.categoryError?.let { error ->
+                    Text(error)
                 }
             }
         )
@@ -199,7 +199,13 @@ private fun TransactionFormContent(
             label = {
                 Text("Date")
             },
-            singleLine = true
+            singleLine = true,
+            isError = uiState.dateError != null,
+            supportingText = {
+                uiState.dateError?.let { error ->
+                    Text(error)
+                }
+            }
         )
 
         OutlinedTextField(
@@ -209,7 +215,13 @@ private fun TransactionFormContent(
             label = {
                 Text("Note")
             },
-            minLines = 3
+            minLines = 3,
+            isError = uiState.noteError != null,
+            supportingText = {
+                uiState.noteError?.let { error ->
+                    Text(error)
+                }
+            }
         )
 
         Button(

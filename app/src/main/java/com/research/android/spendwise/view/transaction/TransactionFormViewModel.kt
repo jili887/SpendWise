@@ -30,6 +30,7 @@ class TransactionFormViewModel @Inject constructor(
                 _uiState.value =
                     TransactionFormUiState()
             }
+
             is TransactionFormMode.Edit -> {
                 loadTransaction(
                     mode.transactionId
@@ -110,18 +111,29 @@ class TransactionFormViewModel @Inject constructor(
 
     fun saveTransaction() {
         val state = _uiState.value
-        val amount = state.amount.toDoubleOrNull()
-        if (amount == null || amount <= 0) {
+        val validationResult =
+            TransactionValidator.validate(
+                amount = state.amount,
+                category = state.category,
+                date = state.date,
+                note = state.note
+            )
+        if (!validationResult.isValid) {
             _uiState.update {
-                it.copy(amountError = "Enter a valid amount greater than 0.")
+                it.copy(
+                    amountError =
+                        validationResult.amountError,
+                    categoryError =
+                        validationResult.categoryError,
+                    dateError =
+                        validationResult.dateError,
+                    noteError =
+                        validationResult.noteError
+                )
             }
             return
         }
-        if (state.category.isBlank()) {
-            _uiState.update { it.copy(categoryError = "Category is required.")
-            }
-            return
-        }
+        val amount = state.amount.trim().toDouble()
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessage = null) }
@@ -130,13 +142,13 @@ class TransactionFormViewModel @Inject constructor(
                     TransactionFormMode.Add -> {
                         val transaction =
                             TransactionEntity(
-                                title = state.category,
+                                title = state.category.trim(),
                                 amount = amount,
                                 type = if (state.type == TransactionType.INCOME) TransactionType.INCOME else TransactionType.EXPENSE,
-                                category = state.category,
+                                category = state.category.trim(),
                                 isIncome = state.type == TransactionType.INCOME,
                                 date = System.currentTimeMillis(),
-                                note = state.note.ifBlank { null }
+                                note = state.note.trim().ifBlank { null }
                             )
                         repository.insertTransaction(
                             transaction
@@ -157,13 +169,13 @@ class TransactionFormViewModel @Inject constructor(
                         }
                         val updatedTransaction =
                             original.copy(
-                                title = state.category,
+                                title = state.category.trim(),
                                 amount = amount,
                                 type = if (state.type == TransactionType.INCOME) TransactionType.INCOME else TransactionType.EXPENSE,
-                                category = state.category,
+                                category = state.category.trim(),
                                 isIncome = state.type == TransactionType.INCOME,
                                 date = System.currentTimeMillis(),
-                                note = state.note.ifBlank { null }
+                                note = state.note.trim().ifBlank { null }
                             )
                         repository.updateTransaction(
                             updatedTransaction
@@ -188,28 +200,5 @@ class TransactionFormViewModel @Inject constructor(
 
     fun clearSavedState() {
         _uiState.update { it.copy(isSaved = false) }
-    }
-
-    fun addTransaction(
-        title: String,
-        amount: Double,
-        category: String,
-        isIncome: Boolean,
-        date: Long,
-        note: String?
-    ) {
-        viewModelScope.launch {
-            repository.insertTransaction(
-                TransactionEntity(
-                    title = title,
-                    amount = amount,
-                    type = if (isIncome) TransactionType.INCOME else TransactionType.EXPENSE,
-                    category = category,
-                    isIncome = isIncome,
-                    date = date,
-                    note = note
-                )
-            )
-        }
     }
 }
