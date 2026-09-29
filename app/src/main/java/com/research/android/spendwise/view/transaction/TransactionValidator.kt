@@ -6,12 +6,14 @@ object TransactionValidator {
     private const val MAX_NOTE_LENGTH = 200
 
     fun validate(
+        title: String,
         amount: String,
         category: String,
         date: String,
         note: String
     ): TransactionValidationResult {
 
+        val titleError = validateTitle(title)
         val amountError = validateAmount(amount)
         val categoryError = validateCategory(category)
         val dateError = validateDate(date)
@@ -23,12 +25,27 @@ object TransactionValidator {
                         categoryError == null &&
                         dateError == null &&
                         noteError == null,
-
+            titleError = titleError,
             amountError = amountError,
             categoryError = categoryError,
             dateError = dateError,
             noteError = noteError
         )
+    }
+
+    private fun validateTitle(
+        title: String
+    ): String? {
+
+        val trimmedTitle = title.trim()
+        if (trimmedTitle.isEmpty()) {
+           return "Title is required."
+        }
+
+        if (trimmedTitle.length > MAX_CATEGORY_LENGTH) {
+            return "Title must be 50 characters or less."
+        }
+        return null
     }
 
     private fun validateAmount(

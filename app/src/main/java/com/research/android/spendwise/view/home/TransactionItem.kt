@@ -14,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.research.android.spendwise.util.millisToDateString
 import com.research.android.spendwise.view.transaction.TransactionType
 
 @Composable
@@ -36,12 +38,17 @@ fun TransactionItem(
         ) {
             Text(
                 text = transaction.title,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.titleSmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             Text(
-                text = transaction.category,
-                style = MaterialTheme.typography.bodySmall
+                text = "${transaction.category} · ${millisToDateString(transaction.date)}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
 
@@ -85,13 +92,13 @@ fun TransactionItemPreview() {
         TransactionItem(
             transaction = TransactionUiModel(
                 id = 1,
-                title = "Groceries",
+                title = "Costco food",
                 amount = 85.40,
                 type = TransactionType.EXPENSE,
-                category = "Food",
+                category = "Grocery",
                 isIncome = false,
                 date = 2600,
-                note = "Cocsto"
+                note = "Beef, carrot,apple"
             ),
             onEditClick = {},
             onDeleteClick = {}

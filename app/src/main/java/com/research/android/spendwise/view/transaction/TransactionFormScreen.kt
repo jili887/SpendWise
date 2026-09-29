@@ -89,6 +89,7 @@ fun TransactionFormScreen(
                 mode = mode,
                 uiState = uiState,
                 onTypeChanged = viewModel::onTypeChanged,
+                onTitleChanged = viewModel::onTitleChanged,
                 onAmountChanged = viewModel::onAmountChanged,
                 onCategoryChanged = viewModel::onCategoryChanged,
                 onDateChanged = viewModel::onDateChanged,
@@ -105,6 +106,7 @@ private fun TransactionFormContent(
     mode: TransactionFormMode,
     uiState: TransactionFormUiState,
     onTypeChanged: (TransactionType) -> Unit,
+    onTitleChanged: (String) -> Unit,
     onAmountChanged: (String) -> Unit,
     onCategoryChanged: (String) -> Unit,
     onDateChanged: (String) -> Unit,
@@ -194,6 +196,20 @@ private fun TransactionFormContent(
                 label = { Text("Income") }
             )
         }
+
+        OutlinedTextField(
+            value = uiState.title,
+            onValueChange = onTitleChanged,
+            modifier = Modifier
+                .fillMaxWidth(),
+            label = { Text("Title") },
+            placeholder = { Text("Required. e.g. Lunch") },
+            singleLine = true,
+            isError = uiState.titleError != null,
+            supportingText = {
+                uiState.titleError?.let { error -> Text(error) }
+            }
+        )
 
         OutlinedTextField(
             value = uiState.amount,

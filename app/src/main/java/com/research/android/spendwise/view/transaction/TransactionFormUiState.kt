@@ -2,6 +2,7 @@ package com.research.android.spendwise.view.transaction
 
 data class TransactionFormUiState(
     val type: TransactionType = TransactionType.EXPENSE,
+    val title: String = "",
     val amount: String = "",
     val category: String = "",
     val date: String = "",
@@ -12,6 +13,7 @@ data class TransactionFormUiState(
 
     val errorMessage: String? = null,
 
+    val titleError: String? = null,
     val amountError: String? = null,
     val categoryError: String? = null,
     val dateError: String? = null,

@@ -69,6 +69,7 @@ class TransactionFormViewModel @Inject constructor(
                             } else {
                                 TransactionType.EXPENSE
                             },
+                        title = transaction.title,
                         amount = transaction.amount.toString(),
                         category = transaction.category,
                         date = millisToDateString(transaction.date),
@@ -93,6 +94,10 @@ class TransactionFormViewModel @Inject constructor(
         _uiState.update { it.copy(type = type) }
     }
 
+    fun onTitleChanged(title: String) {
+        _uiState.update { it.copy(title = title) }
+    }
+
     fun onAmountChanged(amount: String) {
         _uiState.update { it.copy(amount = amount, amountError = null) }
     }
@@ -112,6 +117,7 @@ class TransactionFormViewModel @Inject constructor(
     fun saveTransaction() {
         val state = _uiState.value
         val validationResult = TransactionValidator.validate(
+                title = state.title,
                 amount = state.amount,
                 category = state.category,
                 date = state.date,
@@ -120,6 +126,7 @@ class TransactionFormViewModel @Inject constructor(
         if (!validationResult.isValid) {
             _uiState.update {
                 it.copy(
+                    titleError = validationResult.titleError,
                     amountError = validationResult.amountError,
                     categoryError = validationResult.categoryError,
                     dateError = validationResult.dateError,
@@ -144,7 +151,7 @@ class TransactionFormViewModel @Inject constructor(
                     TransactionFormMode.Add -> {
                         val transaction =
                             TransactionEntity(
-                                title = state.category.trim(),
+                                title = state.title.trim(),
                                 amount = amount,
                                 type = if (state.type == TransactionType.INCOME) TransactionType.INCOME else TransactionType.EXPENSE,
                                 category = state.category.trim(),
@@ -171,7 +178,7 @@ class TransactionFormViewModel @Inject constructor(
                         }
                         val updatedTransaction =
                             original.copy(
-                                title = state.category.trim(),
+                                title = state.title.trim(),
                                 amount = amount,
                                 type = if (state.type == TransactionType.INCOME) TransactionType.INCOME else TransactionType.EXPENSE,
                                 category = state.category.trim(),
