@@ -11,6 +11,7 @@ class TransactionValidatorTest {
     fun `valid transaction returns valid result`() {
 
         val result = TransactionValidator.validate(
+            title = "Supermarket",
             amount = "25.50",
             category = "Food",
             date = "09/28/2026",
@@ -28,6 +29,7 @@ class TransactionValidatorTest {
     fun `empty amount returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "Supermarket",
             amount = "",
             category = "Food",
             date = "09/28/2026",
@@ -45,6 +47,7 @@ class TransactionValidatorTest {
     fun `blank amount returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "   ",
             category = "Food",
             date = "09/28/2026",
@@ -62,6 +65,7 @@ class TransactionValidatorTest {
     fun `non numeric amount returns error`() {
 
         val result = TransactionValidator.validate(
+            title= "hmm",
             amount = "abc",
             category = "Food",
             date = "09/28/2026",
@@ -79,6 +83,7 @@ class TransactionValidatorTest {
     fun `zero amount returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "0",
             category = "Food",
             date = "09/28/2026",
@@ -96,6 +101,7 @@ class TransactionValidatorTest {
     fun `negative amount returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "-10",
             category = "Food",
             date = "09/28/2026",
@@ -113,6 +119,7 @@ class TransactionValidatorTest {
     fun `amount with two decimal places is valid`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "12.50",
             category = "Food",
             date = "09/28/2026",
@@ -126,6 +133,7 @@ class TransactionValidatorTest {
     fun `amount with more than two decimal places returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "12.505",
             category = "Food",
             date = "09/28/2026",
@@ -143,6 +151,7 @@ class TransactionValidatorTest {
     fun `empty category returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "25",
             category = "",
             date = "09/28/2026",
@@ -160,6 +169,7 @@ class TransactionValidatorTest {
     fun `blank category returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "25",
             category = "   ",
             date = "09/28/2026",
@@ -179,6 +189,7 @@ class TransactionValidatorTest {
         val category = "A".repeat(51)
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "25",
             category = category,
             date = "09/28/2026",
@@ -196,6 +207,7 @@ class TransactionValidatorTest {
     fun `empty date returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "25",
             category = "Food",
             date = "",
@@ -213,6 +225,7 @@ class TransactionValidatorTest {
     fun `blank date returns error`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "25",
             category = "Food",
             date = "   ",
@@ -230,6 +243,7 @@ class TransactionValidatorTest {
     fun `empty note is valid`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "25",
             category = "Food",
             date = "09/28/2026",
@@ -246,6 +260,7 @@ class TransactionValidatorTest {
         val note = "A".repeat(201)
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "25",
             category = "Food",
             date = "09/28/2026",
@@ -263,6 +278,7 @@ class TransactionValidatorTest {
     fun `multiple invalid fields return all corresponding errors`() {
 
         val result = TransactionValidator.validate(
+            title = "supermarket",
             amount = "",
             category = "",
             date = "",
