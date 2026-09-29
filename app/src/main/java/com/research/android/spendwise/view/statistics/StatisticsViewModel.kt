@@ -20,7 +20,7 @@ class StatisticsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val selectedFilter =
-        MutableStateFlow(StatisticsFilter.THIS_MONTH)
+        MutableStateFlow(StatisticsFilter.LAST_7_DAYS)
 
     private val _uiState = MutableStateFlow(
         StatisticsUiState(isLoading = true)
@@ -116,60 +116,38 @@ class StatisticsViewModel @Inject constructor(
         }
 
         val calendar = Calendar.getInstance()
-
         return when (filter) {
 
-            StatisticsFilter.THIS_MONTH -> {
+            StatisticsFilter.LAST_7_DAYS -> {
 
                 val start = calendar.apply {
-                    set(
-                        Calendar.DAY_OF_MONTH,
-                        1
-                    )
-                    set(
-                        Calendar.HOUR_OF_DAY,
-                        0
-                    )
-                    set(
-                        Calendar.MINUTE,
-                        0
-                    )
-                    set(
-                        Calendar.SECOND,
-                        0
-                    )
-                    set(
-                        Calendar.MILLISECOND,
-                        0
-                    )
+                    add(Calendar.DAY_OF_YEAR, -7)
                 }.timeInMillis
 
                 transactions.filter {
-                    it.date >= start
+                    it.date >= start && it.date <= Calendar.getInstance().timeInMillis
                 }
             }
 
-            StatisticsFilter.LAST_MONTH -> {
+            StatisticsFilter.LAST_14_DAYS -> {
 
                 val start = calendar.apply {
-                    add(Calendar.MONTH, -1)
-                    set(Calendar.DAY_OF_MONTH, 1)
-                    set(Calendar.HOUR_OF_DAY, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                }.timeInMillis
-
-                val end = calendar.apply {
-                    set(Calendar.DAY_OF_MONTH, 1)
-                    set(Calendar.HOUR_OF_DAY, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
+                    add(Calendar.DAY_OF_YEAR, -14)
                 }.timeInMillis
 
                 transactions.filter {
-                    it.date in start..<end
+                    it.date >= start && it.date <= Calendar.getInstance().timeInMillis
+                }
+            }
+
+            StatisticsFilter.LAST_1_MONTH -> {
+
+                val start = calendar.apply {
+                    add(Calendar.MONTH, -1)
+                }.timeInMillis
+
+                transactions.filter {
+                    it.date >= start && it.date <= Calendar.getInstance().timeInMillis
                 }
             }
 
@@ -177,14 +155,10 @@ class StatisticsViewModel @Inject constructor(
 
                 val start = calendar.apply {
                     add(Calendar.MONTH, -3)
-                    set(Calendar.HOUR_OF_DAY, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
                 }.timeInMillis
 
                 transactions.filter {
-                    it.date >= start
+                    it.date >= start && it.date <= Calendar.getInstance().timeInMillis
                 }
             }
 
