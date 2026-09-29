@@ -2,6 +2,7 @@ package com.research.android.spendwise.view.transaction
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -247,40 +248,50 @@ private fun TransactionFormContent(
         var showDatePicker by rememberSaveable {
             mutableStateOf(false)
         }
-
-        OutlinedTextField(
-            value = uiState.date,
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    showDatePicker = true
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = uiState.date,
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        showDatePicker = true
+                    },
+                label = {
+                    Text("Date")
                 },
-            label = {
-                Text("Date")
-            },
-            singleLine = true,
-            readOnly = true,
-            enabled = true,
-            isError = uiState.dateError != null,
-            supportingText = {
-                uiState.dateError?.let { error ->
-                    Text(error)
+                singleLine = true,
+                readOnly = true,
+                enabled = true,
+                isError = uiState.dateError != null,
+                supportingText = {
+                    uiState.dateError?.let { error ->
+                        Text(error)
+                    }
+                },
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            showDatePicker = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = "Select date"
+                        )
+                    }
                 }
-            },
-            trailingIcon = {
-                IconButton(
-                    onClick = {
+            )
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .clickable {
                         showDatePicker = true
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = "Select date"
-                    )
-                }
-            }
-        )
+            )
+        }
 
         if (showDatePicker) {
             val datePickerState = rememberDatePickerState()
