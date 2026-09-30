@@ -4,6 +4,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.Locale
 
 private val DATE_FORMATTER =
@@ -35,3 +36,11 @@ fun dateStringToMillis(dateString: String): Long? {
         null
     }
 }
+
+fun getCurrentMonthLabel(): String {
+    val now = LocalDate.now()
+    val month = now.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+    val year = now.year
+    return "$month $year"
+}
+

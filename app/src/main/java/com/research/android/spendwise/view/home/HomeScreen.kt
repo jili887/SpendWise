@@ -31,9 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.research.android.spendwise.ui.theme.SpendWiseTheme
+import com.research.android.spendwise.util.getCurrentMonthLabel
 import com.research.android.spendwise.view.common.EmptyState
 import com.research.android.spendwise.view.common.ErrorState
 import com.research.android.spendwise.view.common.LoadingState
+import com.research.android.spendwise.view.common.previewHomeViewModel
 
 @Composable
 fun HomeScreen(
@@ -163,7 +166,7 @@ private fun HomeContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "September 2026",
+                text = getCurrentMonthLabel(),
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -261,10 +264,12 @@ private fun BalanceCard(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-//    MaterialTheme {
-//        HomeScreen(
-//            viewModel = HomeViewModel(),
-//            onAddTransactionClick = {}
-//        )
-//    }
+    SpendWiseTheme {
+        HomeScreen(
+            viewModel = previewHomeViewModel(),
+            onAddTransactionClick = {},
+            onStatisticsClick = {},
+            onEditTransactionClick = {}
+        )
+    }
 }

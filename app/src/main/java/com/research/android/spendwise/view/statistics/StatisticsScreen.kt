@@ -27,11 +27,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.view.common.EmptyState
 import com.research.android.spendwise.view.common.ErrorState
 import com.research.android.spendwise.view.common.LoadingState
+import com.research.android.spendwise.view.common.previewStatisticsViewModel
 
 @Composable
 fun StatisticsScreen(
@@ -267,5 +270,16 @@ private fun StatisticsFilterDropdown(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun StatisticsScreenPreview() {
+    SpendWiseTheme {
+        StatisticsScreen(
+            viewModel = previewStatisticsViewModel(),
+            onAddTransactionClick = {}
+        )
     }
 }

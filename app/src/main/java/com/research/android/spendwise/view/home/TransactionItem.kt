@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.util.millisToDateString
 import com.research.android.spendwise.view.transaction.TransactionType
 
@@ -88,7 +89,7 @@ fun TransactionItem(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TransactionItemPreview() {
-    MaterialTheme {
+    SpendWiseTheme {
         TransactionItem(
             transaction = TransactionUiModel(
                 id = 1,

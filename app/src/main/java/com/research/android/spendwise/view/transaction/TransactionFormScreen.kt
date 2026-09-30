@@ -37,9 +37,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.util.millisToDateString
+import com.research.android.spendwise.view.common.previewTransactionFormViewModel
 
 @Composable
 fun TransactionFormScreen(
@@ -368,5 +371,18 @@ private fun TransactionFormContent(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun TransactionFormScreenPreview() {
+    SpendWiseTheme {
+        TransactionFormScreen(
+            mode = TransactionFormMode.Add,
+            viewModel = previewTransactionFormViewModel(),
+            onSaved = {},
+            onBackClick = {}
+        )
     }
 }
