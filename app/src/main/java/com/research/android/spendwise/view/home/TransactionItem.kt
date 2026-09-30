@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
+import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.util.millisToDateString
 import com.research.android.spendwise.view.transaction.TransactionType
 
@@ -30,7 +30,7 @@ fun TransactionItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp),
+            .padding(vertical = MaterialTheme.spacing.md),
         verticalAlignment = Alignment.CenterVertically
     ) {
 

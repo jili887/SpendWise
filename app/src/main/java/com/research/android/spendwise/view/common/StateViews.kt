@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 
 @Composable
@@ -26,7 +27,7 @@ fun LoadingState(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(32.dp),
+            .padding(MaterialTheme.spacing.xxxl),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -35,7 +36,7 @@ fun LoadingState(
         Text(
             text = "Loading...",
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 12.dp)
+            modifier = Modifier.padding(top = MaterialTheme.spacing.md)
         )
     }
 }
@@ -51,7 +52,7 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(32.dp),
+            .padding(MaterialTheme.spacing.xxxl),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -63,19 +64,19 @@ fun EmptyState(
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 12.dp)
+            modifier = Modifier.padding(top = MaterialTheme.spacing.md)
         )
 
         Text(
             text = message,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = MaterialTheme.spacing.sm)
         )
 
         if (actionLabel != null && onActionClick != null) {
             Button(
                 onClick = onActionClick,
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(top = MaterialTheme.spacing.lg)
             ) {
                 Text(actionLabel)
             }
@@ -92,7 +93,7 @@ fun ErrorState(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(32.dp),
+            .padding(MaterialTheme.spacing.xxxl),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -104,18 +105,18 @@ fun ErrorState(
         Text(
             text = "Something went wrong",
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 12.dp)
+            modifier = Modifier.padding(top = MaterialTheme.spacing.md)
         )
 
         Text(
             text = message,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = MaterialTheme.spacing.sm)
         )
 
         Button(
             onClick = onRetry,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = MaterialTheme.spacing.lg)
         ) {
             Text("Retry")
         }

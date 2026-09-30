@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
+import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.util.millisToDateString
 import com.research.android.spendwise.view.common.previewTransactionFormViewModel
 
@@ -66,7 +67,7 @@ fun TransactionFormScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp)
+                    .padding(MaterialTheme.spacing.xxl)
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(20.dp),
@@ -79,7 +80,7 @@ fun TransactionFormScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp)
+                    .padding(MaterialTheme.spacing.xxl)
             ) {
                 Text(
                     text = uiState.errorMessage!!,
@@ -124,9 +125,9 @@ private fun TransactionFormContent(
             .verticalScroll(
                 rememberScrollState()
             )
-            .padding(16.dp),
+            .padding(MaterialTheme.spacing.lg),
         verticalArrangement =
-            Arrangement.spacedBy(16.dp)
+            Arrangement.spacedBy(MaterialTheme.spacing.lg)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -154,7 +155,7 @@ private fun TransactionFormContent(
         }
 
         Text(
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(start = MaterialTheme.spacing.lg),
             text = when (mode) {
                 TransactionFormMode.Add ->
                     "Track your income or expenses"

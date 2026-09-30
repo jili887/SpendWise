@@ -28,9 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
+import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.view.common.EmptyState
 import com.research.android.spendwise.view.common.ErrorState
 import com.research.android.spendwise.view.common.LoadingState
@@ -86,8 +86,8 @@ private fun StatisticsContent(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(MaterialTheme.spacing.lg),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.lg)
     ) {
 
         item {
@@ -157,7 +157,7 @@ private fun SummaryCard(
     ) {
 
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(MaterialTheme.spacing.lg)
         ) {
 
             Text(
@@ -166,7 +166,7 @@ private fun SummaryCard(
             )
 
             Spacer(
-                modifier = Modifier.height(8.dp)
+                modifier = Modifier.height(MaterialTheme.spacing.sm)
             )
 
             Text(
@@ -187,7 +187,7 @@ private fun CategoryExpenseItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = MaterialTheme.spacing.sm),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -230,7 +230,7 @@ private fun StatisticsFilterDropdown(
                 Text(
                     text = selectedFilter.label,
                     modifier = Modifier.padding(
-                        start = 16.dp
+                        start = MaterialTheme.spacing.lg
                     )
                 )
 

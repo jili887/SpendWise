@@ -29,9 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
+import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.util.getCurrentMonthLabel
 import com.research.android.spendwise.view.common.EmptyState
 import com.research.android.spendwise.view.common.ErrorState
@@ -155,7 +155,7 @@ private fun HomeContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(MaterialTheme.spacing.lg)
         ) {
 
             Text(
@@ -163,14 +163,14 @@ private fun HomeContent(
                 style = MaterialTheme.typography.headlineMedium
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.xxl))
 
             Text(
                 text = getCurrentMonthLabel(),
                 style = MaterialTheme.typography.titleMedium
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.lg))
 
             BalanceCard(
                 balance = uiState.balance,
@@ -178,19 +178,19 @@ private fun HomeContent(
                 expenses = uiState.expenses
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.xxl))
 
             Text(
                 text = "Recent Transactions",
                 style = MaterialTheme.typography.titleLarge
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.sm))
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                contentPadding = PaddingValues(MaterialTheme.spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.sm)
             ) {
                 items(
                     items = uiState.transactions,
@@ -227,21 +227,21 @@ private fun BalanceCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(MaterialTheme.spacing.xl)
         ) {
             Text(
                 text = "Total Balance",
                 style = MaterialTheme.typography.titleMedium
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.sm))
 
             Text(
                 text = "$${"%,.2f".format(balance)}",
                 style = MaterialTheme.typography.headlineLarge
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.xxl))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
