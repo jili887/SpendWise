@@ -28,8 +28,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.util.getCurrentMonthLabel
@@ -69,9 +71,9 @@ fun HomeScreen(
 
         uiState.transactions.isEmpty() -> {
             EmptyState(
-                title = "No transactions yet",
-                message = "Add your first transaction to get started.",
-                actionLabel = "Add Transaction",
+                title = stringResource(R.string.no_transactions_yet),
+                message = stringResource(R.string.no_transactions_message),
+                actionLabel = stringResource(R.string.add_transaction),
                 onActionClick = onAddTransactionClick
             )
         }
@@ -96,12 +98,15 @@ fun HomeScreen(
                 },
 
                 title = {
-                    Text("Delete transaction?")
+                    Text(stringResource(R.string.delete_transaction))
                 },
 
                 text = {
                     Text(
-                        "Are you sure you want to delete \"${transaction.title}\"?"
+                        stringResource(
+                            R.string.delete_transaction_message,
+                            transaction.title
+                        )
                     )
                 },
 
@@ -114,7 +119,7 @@ fun HomeScreen(
                             transactionToDelete = null
                         }
                     ) {
-                        Text("Delete")
+                        Text(stringResource(R.string.delete))
                     }
                 },
                 dismissButton = {
@@ -123,7 +128,7 @@ fun HomeScreen(
                             transactionToDelete = null
                         }
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             )
@@ -145,7 +150,7 @@ private fun HomeContent(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add transaction"
+                    contentDescription = stringResource(R.string.add_transaction)
                 )
             }
         }
@@ -159,7 +164,7 @@ private fun HomeContent(
         ) {
 
             Text(
-                text = "SpendWise",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineMedium
             )
 
@@ -181,7 +186,7 @@ private fun HomeContent(
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.xxl))
 
             Text(
-                text = "Recent Transactions",
+                text = stringResource(R.string.recent_transactions),
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -211,7 +216,7 @@ private fun HomeContent(
             Button(
                 onClick = onStatisticsClick
             ) {
-                Text("Statistics")
+                Text(stringResource(R.string.statistics))
             }
         }
     }
@@ -230,7 +235,7 @@ private fun BalanceCard(
             modifier = Modifier.padding(MaterialTheme.spacing.xl)
         ) {
             Text(
-                text = "Total Balance",
+                text = stringResource(R.string.total_balance),
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -248,12 +253,12 @@ private fun BalanceCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Income")
+                    Text(stringResource(R.string.income))
                     Text("$${"%,.2f".format(income)}")
                 }
 
                 Column {
-                    Text("Expenses")
+                    Text(stringResource(R.string.expenses))
                     Text("$${"%,.2f".format(expenses)}")
                 }
             }

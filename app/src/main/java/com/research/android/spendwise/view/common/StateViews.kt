@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 
@@ -34,7 +36,7 @@ fun LoadingState(
         CircularProgressIndicator()
 
         Text(
-            text = "Loading...",
+            text = stringResource(R.string.loading),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = MaterialTheme.spacing.md)
         )
@@ -103,7 +105,7 @@ fun ErrorState(
         )
 
         Text(
-            text = "Something went wrong",
+            text = stringResource(R.string.something_went_wrong),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = MaterialTheme.spacing.md)
         )
@@ -118,7 +120,7 @@ fun ErrorState(
             onClick = onRetry,
             modifier = Modifier.padding(top = MaterialTheme.spacing.lg)
         ) {
-            Text("Retry")
+            Text(stringResource(R.string.retry))
         }
     }
 }
@@ -136,9 +138,9 @@ fun LoadingStatePreview() {
 fun EmptyStatePreview() {
     SpendWiseTheme {
         EmptyState(
-            title = "No data yet",
-            message = "Add some transactions to see your statistics.",
-            actionLabel = "Add Transaction",
+            title = stringResource(R.string.no_data_yet),
+            message = stringResource(R.string.no_data_message),
+            actionLabel = stringResource(R.string.add_transaction),
             onActionClick = {}
         )
     }
@@ -149,7 +151,7 @@ fun EmptyStatePreview() {
 fun ErrorStatePreview() {
     SpendWiseTheme {
         ErrorState(
-            message = "Something went wrong while loading your transactions.",
+            message = stringResource(R.string.no_data_message),
             onRetry = {}
         )
     }

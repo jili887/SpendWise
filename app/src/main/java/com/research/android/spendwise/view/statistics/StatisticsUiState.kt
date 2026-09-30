@@ -1,5 +1,8 @@
 package com.research.android.spendwise.view.statistics
 
+import androidx.annotation.StringRes
+import com.research.android.spendwise.R
+
 data class StatisticsUiState(
     val income: Double = 0.0,
     val expenses: Double = 0.0,
@@ -10,10 +13,10 @@ data class StatisticsUiState(
     val errorMessage: String? = null
 )
 
-enum class StatisticsFilter(val label: String) {
-    LAST_7_DAYS("Last 7 days"),
-    LAST_14_DAYS("Last 14 days"),
-    LAST_1_MONTH("Last 1 Month"),
-    LAST_3_MONTHS("Last 3 Months"),
-    ALL_TIME("All Time")
+enum class StatisticsFilter(@StringRes val labelRes: Int) {
+    LAST_7_DAYS(R.string.stat_filter_last_7_days),
+    LAST_14_DAYS(R.string.stat_filter_last_14_days),
+    LAST_1_MONTH(R.string.stat_filter_last_1_month),
+    LAST_3_MONTHS(R.string.stat_filter_last_3_months),
+    ALL_TIME(R.string.stat_filter_all_time)
 }

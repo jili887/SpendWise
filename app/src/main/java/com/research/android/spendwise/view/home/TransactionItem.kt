@@ -14,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.util.millisToDateString
@@ -69,7 +71,7 @@ fun TransactionItem(
         ) {
             Icon(
                 imageVector = Icons.Default.Edit,
-                contentDescription = "Edit transaction"
+                contentDescription = stringResource(R.string.edit_transaction)
             )
         }
 
@@ -80,7 +82,7 @@ fun TransactionItem(
         ) {
             Icon(
                 imageVector = Icons.Default.Delete,
-                contentDescription = "Delete transaction"
+                contentDescription = stringResource(R.string.delete_transaction_action)
             )
         }
     }

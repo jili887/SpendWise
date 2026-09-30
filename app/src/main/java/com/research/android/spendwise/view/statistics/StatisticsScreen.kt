@@ -26,9 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.view.common.EmptyState
@@ -62,9 +64,9 @@ fun StatisticsScreen(
                 uiState.expenses == 0.0 -> {
 
             EmptyState(
-                title = "No data yet",
-                message = "Add some transactions to see your statistics.",
-                actionLabel = "Add Transaction",
+                title = stringResource(R.string.no_data_yet),
+                message = stringResource(R.string.no_data_message),
+                actionLabel = stringResource(R.string.add_transaction),
                 onActionClick = onAddTransactionClick
             )
         }
@@ -92,7 +94,7 @@ private fun StatisticsContent(
 
         item {
             Text(
-                text = "Statistics",
+                text = stringResource(R.string.statistics),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -107,28 +109,28 @@ private fun StatisticsContent(
 
         item {
             SummaryCard(
-                title = "Income",
+                title = stringResource(R.string.income),
                 amount = uiState.income
             )
         }
 
         item {
             SummaryCard(
-                title = "Expenses",
+                title = stringResource(R.string.expenses),
                 amount = uiState.expenses
             )
         }
 
         item {
             SummaryCard(
-                title = "Net Balance",
+                title = stringResource(R.string.net_balance),
                 amount = uiState.balance
             )
         }
 
         item {
             Text(
-                text = "Expenses by Category",
+                text = stringResource(R.string.expenses_by_category),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -228,7 +230,7 @@ private fun StatisticsFilterDropdown(
             ) {
 
                 Text(
-                    text = selectedFilter.label,
+                    text = stringResource(selectedFilter.labelRes),
                     modifier = Modifier.padding(
                         start = MaterialTheme.spacing.lg
                     )
@@ -242,7 +244,7 @@ private fun StatisticsFilterDropdown(
 
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Select date range"
+                        contentDescription = stringResource(R.string.select_date_range)
                     )
                 }
 
@@ -257,7 +259,7 @@ private fun StatisticsFilterDropdown(
 
                         DropdownMenuItem(
                             text = {
-                                Text(filter.label)
+                                Text(stringResource(filter.labelRes))
                             },
                             onClick = {
 

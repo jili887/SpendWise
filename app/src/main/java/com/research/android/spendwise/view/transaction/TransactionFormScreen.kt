@@ -36,10 +36,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.util.millisToDateString
@@ -138,16 +140,16 @@ private fun TransactionFormContent(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back"
+                    contentDescription = stringResource(R.string.back)
                 )
             }
             Text(
                 text = when (mode) {
                     TransactionFormMode.Add ->
-                        "Add Transaction"
+                        stringResource(R.string.add_transaction_title)
 
                     is TransactionFormMode.Edit ->
-                        "Edit Transaction"
+                        stringResource(R.string.edit_transaction_title)
                 },
                 style =
                     MaterialTheme.typography.headlineMedium
@@ -158,10 +160,10 @@ private fun TransactionFormContent(
             modifier = Modifier.padding(start = MaterialTheme.spacing.lg),
             text = when (mode) {
                 TransactionFormMode.Add ->
-                    "Track your income or expenses"
+                    stringResource(R.string.track_income_expenses)
 
                 is TransactionFormMode.Edit ->
-                    "Update your transaction details"
+                    stringResource(R.string.update_transaction_details)
             },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -183,7 +185,7 @@ private fun TransactionFormContent(
                     index = 0,
                     count = 2
                 ),
-                label = { Text("Expense") }
+                label = { Text(stringResource(R.string.expense)) }
             )
 
             SegmentedButton(
@@ -198,7 +200,7 @@ private fun TransactionFormContent(
                     index = 1,
                     count = 2
                 ),
-                label = { Text("Income") }
+                label = { Text(stringResource(R.string.income)) }
             )
         }
 
@@ -207,8 +209,8 @@ private fun TransactionFormContent(
             onValueChange = onTitleChanged,
             modifier = Modifier
                 .fillMaxWidth(),
-            label = { Text("Title") },
-            placeholder = { Text("Required. e.g. Lunch") },
+            label = { Text(stringResource(R.string.transaction_title)) },
+            placeholder = { Text(stringResource(R.string.required_example_lunch)) },
             singleLine = true,
             isError = uiState.titleError != null,
             supportingText = {
@@ -220,8 +222,8 @@ private fun TransactionFormContent(
             value = uiState.amount,
             onValueChange = onAmountChanged,
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Amount") },
-            placeholder = { Text("Required") },
+            label = { Text(stringResource(R.string.amount)) },
+            placeholder = { Text(stringResource(R.string.required)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             isError = uiState.amountError != null,
@@ -237,9 +239,9 @@ private fun TransactionFormContent(
             onValueChange = onCategoryChanged,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Category")
+                Text(stringResource(R.string.category))
             },
-            placeholder = { Text("Required") },
+            placeholder = { Text(stringResource(R.string.required)) },
             singleLine = true,
             isError = uiState.categoryError != null,
             supportingText = {
@@ -264,7 +266,7 @@ private fun TransactionFormContent(
                         showDatePicker = true
                     },
                 label = {
-                    Text("Date")
+                    Text(stringResource(R.string.date))
                 },
                 singleLine = true,
                 readOnly = true,
@@ -283,7 +285,7 @@ private fun TransactionFormContent(
                     ) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = "Select date"
+                            contentDescription = stringResource(R.string.select_date)
                         )
                     }
                 }
@@ -315,7 +317,7 @@ private fun TransactionFormContent(
                             showDatePicker = false
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 },
                 dismissButton = {
@@ -324,7 +326,7 @@ private fun TransactionFormContent(
                             showDatePicker = false
                         }
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             ) {
@@ -339,9 +341,9 @@ private fun TransactionFormContent(
             onValueChange = onNoteChanged,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Note")
+                Text(stringResource(R.string.note))
             },
-            placeholder = { Text("Optional") },
+            placeholder = { Text(stringResource(R.string.optional)) },
             minLines = 3,
             maxLines = 5,
             isError = uiState.noteError != null,
@@ -366,8 +368,8 @@ private fun TransactionFormContent(
                 Text(
                     text =
                         when (mode) {
-                            TransactionFormMode.Add -> "Save Transaction"
-                            is TransactionFormMode.Edit -> "Save Changes"
+                            TransactionFormMode.Add -> stringResource(R.string.save_transaction)
+                            is TransactionFormMode.Edit -> stringResource(R.string.save_changes)
                         }
                 )
             }
