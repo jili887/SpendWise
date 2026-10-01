@@ -29,11 +29,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
+import com.research.android.spendwise.ui.theme.transactionColors
 import com.research.android.spendwise.util.getCurrentMonthLabel
 import com.research.android.spendwise.view.common.EmptyState
 import com.research.android.spendwise.view.common.ErrorState
@@ -254,12 +256,19 @@ private fun BalanceCard(
             ) {
                 Column {
                     Text(stringResource(R.string.income))
-                    Text("$${"%,.2f".format(income)}")
+                    Text(
+                        text = "$${"%,.2f".format(income)}",
+                        color = MaterialTheme.transactionColors.income,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
 
                 Column {
                     Text(stringResource(R.string.expenses))
-                    Text("$${"%,.2f".format(expenses)}")
+                    Text("$${"%,.2f".format(expenses)}",
+                        color = MaterialTheme.transactionColors.expense,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }

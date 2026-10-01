@@ -15,11 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
+import com.research.android.spendwise.ui.theme.transactionColors
 import com.research.android.spendwise.util.millisToDateString
 import com.research.android.spendwise.view.transaction.TransactionType
 
@@ -55,13 +57,21 @@ fun TransactionItem(
             )
         }
 
+        val amountTextColor = if (transaction.isIncome) {
+            MaterialTheme.transactionColors.income
+        } else {
+            MaterialTheme.transactionColors.expense
+        }
+
         Text(
             text = if (transaction.isIncome) {
                 "+$${"%,.2f".format(transaction.amount)}"
             } else {
                 "-$${"%,.2f".format(transaction.amount)}"
             },
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold,
+            color = amountTextColor
         )
 
         IconButton(

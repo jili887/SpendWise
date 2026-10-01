@@ -17,7 +17,7 @@ private class PreviewTransactionDao : TransactionDao {
             TransactionEntity(
                 id = 1,
                 title = "Salary",
-                amount = 4200.0,
+                amount = 3500.0,
                 type = TransactionType.INCOME,
                 category = "Work",
                 isIncome = true,
@@ -43,6 +43,16 @@ private class PreviewTransactionDao : TransactionDao {
                 isIncome = false,
                 date = System.currentTimeMillis() - 3 * 86400000,
                 note = "Streaming"
+            ),
+            TransactionEntity(
+                id = 4,
+                title = "Rent",
+                amount = 3400.0,
+                type = TransactionType.EXPENSE,
+                category = "Housing",
+                isIncome = false,
+                date = System.currentTimeMillis() - 86400000,
+                note = "Monthly pay"
             )
         )
     )

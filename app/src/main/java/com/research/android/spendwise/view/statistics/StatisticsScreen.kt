@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
+import com.research.android.spendwise.ui.theme.transactionColors
 import com.research.android.spendwise.view.common.EmptyState
 import com.research.android.spendwise.view.common.ErrorState
 import com.research.android.spendwise.view.common.LoadingState
@@ -174,7 +175,12 @@ private fun SummaryCard(
             Text(
                 text = "$${"%,.2f".format(amount)}",
                 style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = when (title) {
+                    stringResource(R.string.income) -> MaterialTheme.transactionColors.income
+                    stringResource(R.string.expenses) -> MaterialTheme.transactionColors.expense
+                    else -> MaterialTheme.colorScheme.onSurface
+                }
             )
         }
     }
