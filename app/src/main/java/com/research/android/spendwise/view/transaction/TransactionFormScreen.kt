@@ -1,8 +1,6 @@
 package com.research.android.spendwise.view.transaction
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +19,6 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -45,6 +42,7 @@ import com.research.android.spendwise.R
 import com.research.android.spendwise.ui.theme.SpendWiseTheme
 import com.research.android.spendwise.ui.theme.spacing
 import com.research.android.spendwise.util.millisToDateString
+import com.research.android.spendwise.view.common.FormTextField
 import com.research.android.spendwise.view.common.previewTransactionFormViewModel
 
 @Composable
@@ -204,100 +202,72 @@ private fun TransactionFormContent(
             )
         }
 
-        OutlinedTextField(
+        FormTextField(
             value = uiState.title,
             onValueChange = onTitleChanged,
-            modifier = Modifier
-                .fillMaxWidth(),
-            label = { Text(stringResource(R.string.transaction_title)) },
-            placeholder = { Text(stringResource(R.string.required_example_lunch)) },
+            modifier = Modifier.fillMaxWidth(),
+            label = stringResource(R.string.transaction_title),
+            placeholder = when (uiState.type) {
+                TransactionType.EXPENSE -> stringResource(R.string.required_title_expense)
+                TransactionType.INCOME -> stringResource(R.string.required_title_income)
+            },
             singleLine = true,
             isError = uiState.titleError != null,
-            supportingText = {
-                uiState.titleError?.let { error -> Text(error) }
-            }
+            errorText = uiState.titleError
         )
 
-        OutlinedTextField(
+        FormTextField(
             value = uiState.amount,
             onValueChange = onAmountChanged,
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.amount)) },
-            placeholder = { Text(stringResource(R.string.required)) },
+            label = stringResource(R.string.amount),
+            placeholder = stringResource(R.string.required_amount),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             isError = uiState.amountError != null,
-            supportingText = {
-                uiState.amountError?.let { error ->
-                    Text(error)
-                }
-            }
+            errorText = uiState.amountError
         )
 
-        OutlinedTextField(
+        FormTextField(
             value = uiState.category,
             onValueChange = onCategoryChanged,
             modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text(stringResource(R.string.category))
+            label = stringResource(R.string.category),
+            placeholder = when (uiState.type) {
+                TransactionType.EXPENSE -> stringResource(R.string.required_category_expense)
+                TransactionType.INCOME -> stringResource(R.string.required_category_income)
             },
-            placeholder = { Text(stringResource(R.string.required)) },
             singleLine = true,
             isError = uiState.categoryError != null,
-            supportingText = {
-                uiState.categoryError?.let { error ->
-                    Text(error)
-                }
-            }
+            errorText = uiState.categoryError
         )
 
         var showDatePicker by rememberSaveable {
             mutableStateOf(false)
         }
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            OutlinedTextField(
-                value = uiState.date,
-                onValueChange = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
+        FormTextField(
+            value = uiState.date,
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth(),
+            label = stringResource(R.string.date),
+            singleLine = true,
+            readOnly = true,
+            isError = uiState.dateError != null,
+            errorText = uiState.dateError,
+            trailingIcon = {
+                IconButton(
+                    onClick = {
                         showDatePicker = true
-                    },
-                label = {
-                    Text(stringResource(R.string.date))
-                },
-                singleLine = true,
-                readOnly = true,
-                enabled = true,
-                isError = uiState.dateError != null,
-                supportingText = {
-                    uiState.dateError?.let { error ->
-                        Text(error)
                     }
-                },
-                trailingIcon = {
-                    IconButton(
-                        onClick = {
-                            showDatePicker = true
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = stringResource(R.string.select_date)
-                        )
-                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = stringResource(R.string.select_date)
+                    )
                 }
-            )
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .clickable {
-                        showDatePicker = true
-                    }
-            )
-        }
+            },
+            onClick = { showDatePicker = true }
+        )
 
         if (showDatePicker) {
             val datePickerState = rememberDatePickerState()
@@ -336,22 +306,17 @@ private fun TransactionFormContent(
             }
         }
 
-        OutlinedTextField(
+        FormTextField(
             value = uiState.note,
             onValueChange = onNoteChanged,
             modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text(stringResource(R.string.note))
-            },
-            placeholder = { Text(stringResource(R.string.optional)) },
+            label = stringResource(R.string.note),
+            placeholder = stringResource(R.string.optional),
+            singleLine = false,
             minLines = 3,
             maxLines = 5,
             isError = uiState.noteError != null,
-            supportingText = {
-                uiState.noteError?.let { error ->
-                    Text(error)
-                }
-            }
+            errorText = uiState.noteError
         )
 
         Button(

@@ -27,8 +27,12 @@
     <string name="ok">OK</string>
     <string name="optional">Optional</string>
     <string name="recent_transactions">Recent Transactions</string>
+    <string name="required_amount">Required. e.g.$50</string>
+    <string name="required_category_expense">Required. e.g. Grocery</string>
+    <string name="required_category_income">Required. e.g. Salary</string>
+    <string name="required_title_expense">Required. e.g. Lunch</string>
+    <string name="required_title_income">Required. e.g. Paycheck</string>
     <string name="required">Required</string>
-    <string name="required_example_lunch">Required. e.g. Lunch</string>
     <string name="retry">Retry</string>
     <string name="save_changes">Save Changes</string>
     <string name="save_transaction">Save Transaction</string>
