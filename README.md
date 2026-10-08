@@ -69,15 +69,15 @@ Hilt is used for dependency injection, while Room provides local persistence. Re
 
 ### Screenshots
 #### 1. Home
-![SpendWise_HomeScreen.png](../../Personal/%E5%89%AF%E4%B8%9A/Side_Project/SpendWise_HomeScreen.png)
+![Home](screenshots/SpendWise_HomeScreen.png)
 #### 2. Add Transaction
-![SpendWise_AddTransaction.png](../../Personal/%E5%89%AF%E4%B8%9A/Side_Project/SpendWise_AddTransaction.png)
+![SpendWise_AddTransaction.png](screenshots/SpendWise_AddTransaction.png)
 #### 3. Edit Transaction
-![SpendWise_EditTransaction.png](../../Personal/%E5%89%AF%E4%B8%9A/Side_Project/SpendWise_EditTransaction.png)
+![SpendWise_EditTransaction.png](screenshots/SpendWise_EditTransaction.png)
 #### 4. Statistics 
-![SpendWise_Statistics.png](../../Personal/%E5%89%AF%E4%B8%9A/Side_Project/SpendWise_Statistics.png)
+![SpendWise_Statistics.png](screenshots/SpendWise_Statistics.png)
 #### 5. Empty state
-![SpendWise_EmptyState.png](../../Personal/%E5%89%AF%E4%B8%9A/Side_Project/SpendWise_EmptyState.png)
+![SpendWise_EmptyState.png](screenshots/SpendWise_EmptyState.png)
 ### Testing
 
 Unit tests cover key application behavior including:
