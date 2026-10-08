@@ -70,12 +70,16 @@ Hilt is used for dependency injection, while Room provides local persistence. Re
 ### Screenshots
 #### 1. Home
 <img src="screenshots/SpendWise_HomeScreen.png" alt="Home Screen" width="250"/>
+
 #### 2. Add Transaction
 <img src="screenshots/SpendWise_AddTransaction.png" alt="Add Transaction" width="250"/>
+
 #### 3. Edit Transaction
 <img src="screenshots/SpendWise_EditTransaction.png" alt="Edit Transaction" width="250"/>
+
 #### 4. Statistics 
 <img src="screenshots/SpendWise_Statistics.png" alt="Statistics" width="250"/>
+
 #### 5. Empty state
 <img src="screenshots/SpendWise_EmptyState.png" alt="Empty State" width="250"/>
 
